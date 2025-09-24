@@ -1,5 +1,6 @@
+import Banner from "~/components/Banner";
 import type { Route } from "./+types/home";
-import { Welcome } from "../welcome/welcome";
+import Layout from "~/layouts";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -9,5 +10,13 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
-  return <Welcome />;
+  return (
+    <Layout>
+      <h1
+        style={{
+          color: "blue",
+        }}
+      >Home Page</h1>
+    </Layout>
+  )
 }

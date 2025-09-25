@@ -1,5 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import Lightbox from './Lightbox';
+import { useAuth } from '~/contexts/AuthContext';
+import { Link } from 'react-router';
 
 interface ProductProps {
   id: string;
@@ -35,6 +37,7 @@ const Product = ({
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
 
+  const {isLogin} = useAuth();
   // Default fallback image for broken product images
   const defaultProductImage = "data:image/svg+xml,%3csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='200' height='200' fill='%23f3f4f6'/%3e%3cg fill='%236b7280'%3e%3crect x='50' y='60' width='100' height='80' fill='%23e5e7eb' rx='8'/%3e%3cpath d='M80 85h40v2H80zm0 10h35v2H80zm0 10h30v2H80z'/%3e%3ctext x='100' y='40' text-anchor='middle' font-size='14' font-family='Arial' fill='%236b7280'%3eÜrün%3c/text%3e%3c/g%3e%3c/svg%3e";
 
@@ -206,52 +209,62 @@ const Product = ({
               </div>
             </div>
             {/* Aksiyonlar */}
-            <div className="mt-4 flex items-center justify-between">
-              {quantity === 0 ? (
-                <button
-                  onClick={handleAddToCart}
-                  disabled={!inStock}
-                  className={`flex-1 py-2 px-4 rounded-lg text-sm font-semibold transition-colors duration-200 ${
-                    inStock 
-                      ? 'bg-blue-600 text-white hover:bg-blue-700' 
-                      : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                  }`}
-                >
-                  {inStock ? 'Sepete Ekle' : 'Tükendi'}
-                </button>
-              ) : (
-                <div className="flex items-center space-x-2 flex-1">
+              {
+                isLogin ? (
+                  <div className="mt-4 flex items-center justify-between">
+                  {quantity === 0 ? (
+                    <button
+                      onClick={handleAddToCart}
+                      disabled={!inStock}
+                      className={`flex-1 py-2 px-4 rounded-lg text-sm font-semibold transition-colors duration-200 ${
+                        inStock 
+                          ? 'bg-blue-600 text-white hover:bg-blue-700' 
+                          : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                      }`}
+                    >
+                      {inStock ? 'Sepete Ekle' : 'Tükendi'}
+                    </button>
+                  ) : (
+                    <div className="flex items-center space-x-2 flex-1">
+                      <button
+                        onClick={handleDecreaseQuantity}
+                        className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center transition-colors duration-200"
+                      >
+                        <svg className="w-4 h-4 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                        </svg>
+                      </button>
+                      <span className="font-semibold text-gray-900 dark:text-gray-900">{quantity}</span>
+                      <button
+                        onClick={handleIncreaseQuantity}
+                        className="w-8 h-8 rounded-full bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center transition-colors duration-200"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        </svg>
+                      </button>
+                    </div>
+                  )}
+                  
                   <button
-                    onClick={handleDecreaseQuantity}
-                    className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center transition-colors duration-200"
-                  >
-                    <svg className="w-4 h-4 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-                    </svg>
-                  </button>
-                  <span className="font-semibold text-gray-900 dark:text-gray-900">{quantity}</span>
-                  <button
-                    onClick={handleIncreaseQuantity}
-                    className="w-8 h-8 rounded-full bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center transition-colors duration-200"
+                    onClick={handleViewImage}
+                    className="ml-2 p-2 rounded-lg border border-gray-300 hover:border-blue-600 hover:text-blue-600 text-gray-600 dark:text-gray-700 transition-colors duration-200"
+                    title="Resmi Büyüt"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                     </svg>
                   </button>
                 </div>
-              )}
-              
-              <button
-                onClick={handleViewImage}
-                className="ml-2 p-2 rounded-lg border border-gray-300 hover:border-blue-600 hover:text-blue-600 text-gray-600 dark:text-gray-700 transition-colors duration-200"
-                title="Resmi Büyüt"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                </svg>
-              </button>
-            </div>
+                ) : (
+                  <div className="mt-4">
+                    <Link to="/login" className="flex-1 py-2 px-4 rounded-lg text-sm font-semibold bg-green-600 text-white hover:bg-green-700 transition-colors duration-200 text-center">
+                      Giriş Yap & Sepete Ekle
+                    </Link>
+                  </div>
+                )
+              }
           </div>
         </div>
       </div>

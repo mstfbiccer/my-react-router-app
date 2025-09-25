@@ -20,8 +20,8 @@ export const basketOperationsSlice = createSlice({
       state.items.push(action.payload)
     },
     removeItem: (state, action: PayloadAction<BasketItem>) => {
-      // filter: Filter fonksiyonu verilen şarta uymayan elemanları döner.
-      state.items = state.items.filter((item) => item !== action.payload)
+      // filter: Filter fonksiyonu verilen şarta uyan elemanları döner.
+      state.items = state.items.filter((item) => item === action.payload)
     },
     clearBasket: (state) => {
       state.items = []

@@ -43,6 +43,10 @@ const Product = ({
   // Default fallback image for broken product images
   const defaultProductImage = "data:image/svg+xml,%3csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='200' height='200' fill='%23f3f4f6'/%3e%3cg fill='%236b7280'%3e%3crect x='50' y='60' width='100' height='80' fill='%23e5e7eb' rx='8'/%3e%3cpath d='M80 85h40v2H80zm0 10h35v2H80zm0 10h30v2H80z'/%3e%3ctext x='100' y='40' text-anchor='middle' font-size='14' font-family='Arial' fill='%236b7280'%3eÜrün%3c/text%3e%3c/g%3e%3c/svg%3e";
   const dispatch = useDispatch();
+  
+  // Generate product detail route from product ID
+  const productDetailRoute = `/product/${id}`;
+
   // Lazy loading with Intersection Observer
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -72,7 +76,6 @@ const Product = ({
   };
 
   const handleAddToCart = (e: React.MouseEvent) => {
-
     e.preventDefault();
     if (inStock) {
       setQuantity(prev => prev + 1);
@@ -144,7 +147,7 @@ const Product = ({
     <>
       <div className={`group relative bg-white dark:bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 ${className}`}>
         <div className="relative">
-          <a href={url} className="block">
+          <Link to={productDetailRoute} className="block">
             <div className="relative h-48 overflow-hidden rounded-t-xl">
               {/* Placeholder while loading */}
               {!isLoaded && (
@@ -180,17 +183,17 @@ const Product = ({
                 </div>
               )}
             </div>
-          </a>
+          </Link>
           <div className="p-4">
             {/* Kategori */}
             <span className="text-xs text-gray-500 dark:text-gray-600 uppercase tracking-wide">{category}</span>
             
             {/* Ürün adı */}
-            <a href={url} className="block">
+            <Link to={productDetailRoute} className="block">
               <h3 className="mt-1 text-sm font-medium text-gray-900 dark:text-gray-900 group-hover:text-blue-600 transition-colors duration-200 line-clamp-2">
                 {name}
               </h3>
-            </a>
+            </Link>
             {/* Rating */}
             <div className="mt-2 flex items-center space-x-2">
               <div className="flex items-center space-x-1">
@@ -262,7 +265,7 @@ const Product = ({
                 </div>
                 ) : (
                   <div className="mt-4">
-                    <Link to="/login" className="flex-1 py-2 px-4 rounded-lg text-sm font-semibold bg-green-600 text-white hover:bg-green-700 transition-colors duration-200 text-center">
+                    <Link to="/login" className="block w-full py-2 px-4 rounded-lg text-sm font-semibold bg-green-600 text-white hover:bg-green-700 transition-colors duration-200 text-center">
                       Giriş Yap & Sepete Ekle
                     </Link>
                   </div>

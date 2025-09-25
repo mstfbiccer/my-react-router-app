@@ -17,6 +17,7 @@ export interface Product {
   id: string;
   name: string;
   price: number;
+  description: string;
   originalPrice?: number;
   image: string;
   rating: number;
@@ -32,6 +33,7 @@ const transformFakeStoreProduct = (product: FakeStoreProduct): Product => {
     id: product.id.toString(),
     name: product.title,
     price: product.price,
+    description: product.description,
     originalPrice: Math.random() > 0.5 ? product.price * 1.2 : undefined, // Rastgele indirim
     image: product.image,
     rating: product.rating.rate,
@@ -51,7 +53,10 @@ export const productsApi = createApi({
   tagTypes: ['Product'],
   endpoints: (builder) => ({
     getProducts: builder.query<Product[], void>({
-      query: () => 'products',
+      query: () => ({
+        url: 'products',
+        method: 'GET',
+      }),
       transformResponse: (response: FakeStoreProduct[]) =>
         response.map(transformFakeStoreProduct),
       providesTags: ['Product'],

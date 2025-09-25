@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { Link } from 'react-router';
 
 interface CategoryProps {
   name: string;
@@ -46,10 +47,13 @@ const Category = ({ name, coverImage, url, className = '' }: CategoryProps) => {
     setIsLoaded(true);
   };
 
+  // Generate category route URL from category name
+  const categoryRoute = `/category/${name.toLowerCase()}`;
+
   return (
     <div className={`group relative overflow-hidden rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 ${className}`}>
-      <a 
-        href={url} 
+      <Link 
+        to={categoryRoute} 
         className="block w-full h-full"
         aria-label={name}
       >
@@ -91,7 +95,7 @@ const Category = ({ name, coverImage, url, className = '' }: CategoryProps) => {
             </svg>
           </div>
         </div>
-      </a>
+      </Link>
     </div>
   );
 };

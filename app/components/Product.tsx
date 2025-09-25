@@ -2,6 +2,8 @@ import { useState, useRef, useEffect } from 'react';
 import Lightbox from './Lightbox';
 import { useAuth } from '~/contexts/AuthContext';
 import { Link } from 'react-router';
+import { useDispatch } from 'react-redux';
+import { addItem } from '~/store/slices/basketOperations';
 
 interface ProductProps {
   id: string;
@@ -40,7 +42,7 @@ const Product = ({
   const {isLogin} = useAuth();
   // Default fallback image for broken product images
   const defaultProductImage = "data:image/svg+xml,%3csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='200' height='200' fill='%23f3f4f6'/%3e%3cg fill='%236b7280'%3e%3crect x='50' y='60' width='100' height='80' fill='%23e5e7eb' rx='8'/%3e%3cpath d='M80 85h40v2H80zm0 10h35v2H80zm0 10h30v2H80z'/%3e%3ctext x='100' y='40' text-anchor='middle' font-size='14' font-family='Arial' fill='%236b7280'%3eÜrün%3c/text%3e%3c/g%3e%3c/svg%3e";
-
+  const dispatch = useDispatch();
   // Lazy loading with Intersection Observer
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -70,10 +72,11 @@ const Product = ({
   };
 
   const handleAddToCart = (e: React.MouseEvent) => {
+
     e.preventDefault();
     if (inStock) {
       setQuantity(prev => prev + 1);
-      // TODO: Add to cart logic
+      dispatch(addItem({ productId: id, quantity: 1}));
     }
   };
 

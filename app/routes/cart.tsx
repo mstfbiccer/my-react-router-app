@@ -292,9 +292,9 @@ export default function Cart() {
               <span>{formatPrice(total)}</span>
             </div>
 
-            <button className="w-full mt-6 bg-blue-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-200">
+            <Link to={"/orders"} className="w-full mt-6 bg-blue-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-200">
               Siparişi Tamamla
-            </button>
+            </Link>
 
             <Link 
               to="/"

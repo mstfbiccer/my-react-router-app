@@ -3,10 +3,15 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "dev": "react-router dev --mode production",
+    "dev:env": "react-router dev --mode development",
     "build": "react-router build",
-    "dev": "react-router dev",
+    "build:dev": "react-router build --mode development",
+    "build:prod": "react-router build --mode production",
     "start": "react-router-serve ./build/server/index.js",
-    "typecheck": "react-router typegen && tsc"
+    "start:prod": "NODE_ENV=production react-router-serve ./build/server/index.js",
+    "typecheck": "react-router typegen && tsc",
+    "preview": "vite preview"
   },
   "dependencies": {
     "@react-router/node": "^7.7.1",
@@ -15,6 +20,7 @@
     "isbot": "^5.1.27",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-hook-form": "^7.63.0",
     "react-redux": "^9.2.0",
     "react-router": "^7.7.1"
   },

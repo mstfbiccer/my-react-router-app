@@ -48,7 +48,12 @@ const transformFakeStoreProduct = (product: FakeStoreProduct): Product => {
 export const productsApi = createApi({
   reducerPath: 'productsApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://fakestoreapi.com/',
+    baseUrl: import.meta.env.VITE_BASE_URL,
+    prepareHeaders: (headers) => {
+      headers.set('Content-Type', 'application/json');
+      headers.set('Authorization', 'Bearer fake-token'); // Gerçek uygulamada dinamik token kullanın
+      return headers;
+    },
   }),
   tagTypes: ['Product'],
   endpoints: (builder) => ({
